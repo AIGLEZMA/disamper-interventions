@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <StackPane alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="800.0">
+         <children>
+            <Rectangle fill="WHITESMOKE" height="69.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" style="-fx-background-radius: 0;" width="800.0" StackPane.alignment="TOP_CENTER">
+               <effect>
+                  <DropShadow>
+                     <color>
+                        <Color red="0.8470588326454163" green="0.8470588326454163" blue="0.8470588326454163" />
+                     </color></DropShadow>
+               </effect></Rectangle>
+            <Text fill="#00695c" lineSpacing="0.15" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Roboto Medium;" text="DISAMPER" StackPane.alignment="CENTER_LEFT">
+               <font>
+                  <Font name="Roboto Light" size="25.0" />
+               </font>
+               <StackPane.margin>
+                  <Insets left="20.0" />
+               </StackPane.margin>
+            </Text>
+         </children></StackPane>
+      <Pane prefHeight="750.0" prefWidth="800.0" style="-fx-background-color: #FAFAFA;">
+         <children>
+            <Pane id="name" layoutX="143.0" layoutY="31.0" prefHeight="600.0" prefWidth="515.0" style="-fx-background-color: #ffff;">
+               <effect>
+                  <DropShadow>
+                     <color>
+                        <Color red="0.9098039269447327" green="0.9098039269447327" blue="0.9098039269447327" />
+                     </color>
+                  </DropShadow>
+               </effect>
+               <children>
+                  <Text fill="#898989" layoutX="145.0" layoutY="44.0" lineSpacing="0.25" strokeType="OUTSIDE" strokeWidth="0.0" text="Fiche d'intervention">
+                     <font>
+                        <Font name="SansSerif Regular" size="26.0" />
+                     </font>
+                  </Text>
+                  <JFXTextField fx:id="lastName" focusColor="#00796b" labelFloat="true" layoutX="43.0" layoutY="101.0" prefHeight="29.0" prefWidth="186.0" promptText="Nom *" unFocusColor="#dbdbdb">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </JFXTextField>
+                  <JFXTextField fx:id="firstName" focusColor="#00796b" labelFloat="true" layoutX="298.0" layoutY="101.0" prefHeight="29.0" prefWidth="186.0" promptText="Prénom *" unFocusColor="#dbdbdb">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </JFXTextField>
+                  <JFXTextField fx:id="client" focusColor="#00796b" labelFloat="true" layoutX="43.0" layoutY="174.0" prefHeight="29.0" prefWidth="186.0" promptText="Client *" unFocusColor="#dbdbdb">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </JFXTextField>
+                  <JFXDatePicker defaultColor="#00796b" layoutX="42.0" layoutY="248.0" overLay="true" prefHeight="29.0" prefWidth="441.0" promptText="Date *" stylesheets="@c.css" />
+                  <JFXButton layoutX="43.0" layoutY="475.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="186.0" style="-jfx-button-type: RAISED; -fx-background-color: #4DB6AC; -fx-text-fill: #FFFF;" text="Imprimer">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font></JFXButton>
+                  <FontAwesomeIconView fill="#dbdbdb" glyphName="PRINT" layoutX="89.0" layoutY="493.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="CENTER" wrappingWidth="19.142857551574707">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </FontAwesomeIconView>
+                  <JFXButton layoutX="298.0" layoutY="474.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="186.0" style="-jfx-button-type: RAISED; -fx-background-color: #4DB6AC; -fx-text-fill: #FFFF;" text="Sauvegarder">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font>
+                  </JFXButton>
+                  <FontAwesomeIconView fill="#dbdbdb" glyphName="SAVE" layoutX="341.0" layoutY="494.0" size="13" strokeType="OUTSIDE" strokeWidth="0.0" text="">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </FontAwesomeIconView>
+                  <Hyperlink fx:id="reset" layoutX="437.0" layoutY="513.0" prefHeight="21.0" prefWidth="46.0" text="Reset" textAlignment="CENTER" textFill="#007178">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font>
+                  </Hyperlink>
+                  <JFXTextField layoutX="298.0" layoutY="174.0" prefHeight="29.0" prefWidth="186.0" />
+                  <Line endX="-100.0" endY="426.0" layoutX="584.0" layoutY="131.0" startX="-100.0" />
+                  <Line endX="-100.0" endY="424.0" layoutX="142.0" layoutY="129.0" startX="-100.0" />
+                  <JFXTextArea layoutX="45.0" layoutY="327.0" prefHeight="99.0" prefWidth="435.0" promptText="Note" />
+                  <JFXSpinner layoutX="229.0" layoutY="217.0" radius="20.0" style="-fx-background-color: #FFFFF;" />
+               </children>
+            </Pane>
+         </children></Pane>
+      <GridPane>
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
+   </children>
+</VBox>
