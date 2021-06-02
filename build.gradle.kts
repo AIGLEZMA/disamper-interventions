@@ -3,6 +3,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version "5.2.0"
     java
     application
+
     id("org.openjfx.javafxplugin") version "0.0.9"
     id("edu.sc.seis.launch4j") version "2.5.0"
 }
@@ -16,7 +17,6 @@ repositories {
 }
 
 javafx {
-    // , "javafx.fxml" , "javafx.graphics" , "javafx.media"
     modules = listOf("javafx.controls")
 }
 
