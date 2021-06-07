@@ -1,24 +1,26 @@
 package me.aiglez.disamper.interventions
 
 import javafx.stage.Stage
-import me.aiglez.disamper.interventions.views.MainView
+import me.aiglez.disamper.interventions.views.HistoryView
 import tornadofx.*
 
-class Main : App(MainView::class) {
+const val WIDTH = 900.0
+const val HEIGHT = 700.0
+
+class Main : App(HistoryView::class) {
 
     override fun start(stage: Stage) {
         with(stage) {
-            minWidth = 900.0
-            minHeight = 700.0
+            minWidth = WIDTH
+            minHeight = HEIGHT
             isResizable = false
             super.start(this)
         }
     }
 
     init {
-        importStylesheet("/css/custom.css")
+        importStylesheet("/css/header.css")
     }
-
 }
 
 fun main() {
