@@ -20,6 +20,16 @@ class Intervention(id: EntityID<Int>) : IntEntity(id) {
 
     var note by Interventions.note
 
+    override fun toString(): String {
+        return "{\n" +
+                "lastName: $lastName\n" +
+                "firstName: $firstName\n" +
+                "functions: $functions\n" +
+                "client: $client\n" +
+                "date: $date\n" +
+                "note: ${note ?: "unspecified"}\n" +
+                "}\n"
+    }
 }
 
 class InterventionModel: ItemViewModel<Intervention>() {

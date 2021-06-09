@@ -14,12 +14,13 @@ import tornadofx.*
 import java.sql.Connection
 import java.time.LocalDate
 
-class MainController: Controller() {
+class DatabaseController: Controller() {
 
-    val interventions: ObservableList<InterventionModel> by lazy {
+    val cache: ObservableList<InterventionModel> by lazy {
         transaction {
             Intervention.all().map {
                 InterventionModel().apply {
+                    println("Intervention -> Model for $it")
                     item = it
                 }
             }.asObservable()
@@ -36,29 +37,29 @@ class MainController: Controller() {
             SchemaUtils.create(Interventions)
 
             Intervention.new {
-                lastName = "AIT NASSER"
-                firstName = "Jaouad"
+                lastName = "Brakha"
+                firstName = "Brahim"
                 functions = "Gérant"
 
-                client = "Nadia LLC"
+                client = "44 LLC"
                 date = LocalDate.of(2021, 2, 5)
             }
 
             Intervention.new {
-                lastName = "AIT NASSER"
-                firstName = "Asma"
+                lastName = "AISSAOUI"
+                firstName = "Ilyass"
                 functions = "Co-Gérant"
 
-                client = "Nadia LLC"
+                client = "AITNASSER LLC"
                 date = LocalDate.of(2021, 2, 8)
             }
 
             Intervention.new {
-                lastName = "BALHAN"
-                firstName = "Fatima"
-                functions = "Technicien"
+                lastName = "Benrabah"
+                firstName = "Imad"
+                functions = "Chawch"
 
-                client = "Google"
+                client = "L7anous"
                 date = LocalDate.of(2020, 5, 10)
             }
         }

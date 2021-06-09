@@ -6,6 +6,7 @@ import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory
 import javafx.geometry.Pos
 import javafx.scene.effect.DropShadow
 import javafx.scene.layout.StackPane
+import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import me.aiglez.disamper.interventions.WIDTH
 import me.aiglez.disamper.interventions.utils.jfxbutton
@@ -18,14 +19,15 @@ class HeaderFragment : Fragment() {
             prefHeight = 90.0; prefWidth = WIDTH
             isCenterShape = false
             style {
-                backgroundColor = multi(c("#2c2f33"))
+                backgroundColor = multi(Color.WHITESMOKE)
             }
-            effect = DropShadow(10.0, c("#202225"))
+            effect = DropShadow(35.0, c("#d8d8d8"))
 
             // text
             text("DISAMPER") {
-                fill = c("#FFFFFF")
+                fill = c("#5865F2")
                 font = loadFont("/fonts/roboto-medium.ttf", 29)
+                effect = DropShadow(10.0, c("#d8d8d8"))
 
                 stackpaneConstraints {
                     alignment = Pos.CENTER_LEFT
@@ -35,7 +37,9 @@ class HeaderFragment : Fragment() {
 
             // button
             jfxbutton("AJOUTER", JFXButton.ButtonType.RAISED) {
-                ripplerFill = c("#23272a")
+                prefHeight = 37.0; prefWidth = 107.0
+
+                ripplerFill = c("#66BB6A")
                 textFill = c("#FFFFFF")
                 font = Font.font("Segoe UI Semibold", 15.0)
 
@@ -47,13 +51,17 @@ class HeaderFragment : Fragment() {
                     alignment = Pos.CENTER_RIGHT
                     marginRight = 20.0
                 }
+
+                style {
+                    backgroundColor = multi(c("#54a957"))
+                }
             }
 
             // icon
             add(
                 FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.BOLT, "50").apply {
-                    fill = c("#7289da")
-                    effect = DropShadow(10.0, c("#202225"))
+                    fill = c("#5865F2")
+                    effect = DropShadow(10.0, c("#d8d8d8"))
                     onHover {
                         style = if (it) {
                             String.format(

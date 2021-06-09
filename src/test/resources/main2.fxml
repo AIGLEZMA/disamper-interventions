@@ -9,27 +9,23 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<Pane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Pane layoutY="90.0" prefHeight="610.0" prefWidth="900.0" style="-fx-background-color: #36393F #36393F;">
+      <Pane layoutY="90.0" prefHeight="610.0" prefWidth="1000.0" style="-fx-background-color: #36393F #36393F;">
          <children>
-            <Text fill="#7289da" layoutX="50.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HISTORIQUE">
-               <font>
-                  <Font name="Arial" size="28.0" />
-               </font></Text>
-            <TreeTableView layoutX="50.0" layoutY="105.0" prefHeight="460.0" prefWidth="800.0">
+            <TableView layoutX="50.0" layoutY="102.0" prefHeight="415.0" prefWidth="900.0" stylesheets="@../../main/resources/css/history.css">
               <columns>
-                <TreeTableColumn editable="false" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" resizable="false" text="ID" />
-                <TreeTableColumn editable="false" prefWidth="75.0" resizable="false" text="INTERVENEUR">
+                <TableColumn editable="false" maxWidth="25.0" minWidth="25.0" prefWidth="40.0" resizable="false" text="ID" />
+                <TableColumn editable="false" prefWidth="75.0" resizable="false" text="INTERVENEUR">
                      <columns>
-                        <TreeTableColumn editable="false" minWidth="110.0" prefWidth="75.0" resizable="false" text="NOM" />
-                        <TreeTableColumn editable="false" minWidth="110.0" prefWidth="75.0" resizable="false" text="PRÉNOM" />
-                        <TreeTableColumn editable="false" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" resizable="false" sortable="false" text="FONCTIONS" />
+                        <TableColumn editable="false" minWidth="130.0" prefWidth="100.0" resizable="false" text="NOM" />
+                        <TableColumn editable="false" minWidth="130.0" prefWidth="100.0" resizable="false" text="PRÉNOM" />
+                        <TableColumn editable="false" maxWidth="110.0" minWidth="130.0" prefWidth="110.0" resizable="false" sortable="false" text="FONCTIONS" />
                      </columns>
-                  </TreeTableColumn>
-                  <TreeTableColumn editable="false" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" resizable="false" text="CLIENT" />
-                  <TreeTableColumn editable="false" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" resizable="false" sortable="false" text="DATE" />
-                  <TreeTableColumn editable="false" maxWidth="190.0" minWidth="190.0" prefWidth="190.0" resizable="false" sortable="false" text="NOTE" />
+                  </TableColumn>
+                  <TableColumn editable="false" maxWidth="130.0" minWidth="130.0" prefWidth="122.0" resizable="false" text="CLIENT" />
+                  <TableColumn editable="false" maxWidth="118.0" minWidth="130.0" prefWidth="120.0" resizable="false" sortable="false" text="DATE" />
+                  <TableColumn editable="false" maxWidth="224.0" minWidth="180.0" prefWidth="224.0" resizable="false" sortable="false" text="NOTE" />
               </columns>
                <effect>
                   <DropShadow>
@@ -38,15 +34,42 @@
                      </color>
                   </DropShadow>
                </effect>
-            </TreeTableView>
-            <JFXTextField focusColor="#7289da" labelFloat="true" layoutX="661.0" layoutY="51.0" prefHeight="29.0" prefWidth="189.0" promptText="Recherche..." stylesheets="@../../main/resources/css/custom.css" unFocusColor="#99aab5">
-               <font>
-                  <Font name="Segoe UI" size="15.0" />
-               </font></JFXTextField>
-            <FontAwesomeIconView fill="#99aab5" glyphName="SEARCH" layoutX="826.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+            </TableView>
+            <BorderPane layoutX="50.0" layoutY="52.0" prefHeight="50.0" prefWidth="900.0">
+               <left>
+                  <Text fill="#7289da" lineSpacing="1.2" strokeType="OUTSIDE" strokeWidth="0.0" text="HISTORIQUE" BorderPane.alignment="CENTER_LEFT">
+                     <font>
+                        <Font name="Arial" size="27.0" />
+                     </font>
+                  </Text>
+               </left>
+               <right>
+                  <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <FontAwesomeIconView fill="#5865f2" glyphName="PRINT" selectionFill="#5865f2" size="21" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="17.5" />
+                        <JFXTextField focusColor="#7289da" labelFloat="true" prefHeight="30.0" prefWidth="190.0" promptText="Recherche..." stylesheets="@../../main/resources/css/custom.css" unFocusColor="#99aab5">
+                           <font>
+                              <Font name="Segoe UI" size="15.0" />
+                           </font>
+                        </JFXTextField>
+                     </children>
+                  </HBox>
+               </right>
+            </BorderPane>
+            <BorderPane layoutX="50.0" layoutY="535.0" prefHeight="35.0" prefWidth="900.0">
+               <left>
+                  <JFXButton mnemonicParsing="false" prefHeight="25.0" prefWidth="290.0" text="Button" BorderPane.alignment="CENTER" />
+               </left>
+               <right>
+                  <JFXButton mnemonicParsing="false" prefHeight="25.0" prefWidth="290.0" text="Button" BorderPane.alignment="CENTER" />
+               </right>
+               <center>
+                  <JFXButton mnemonicParsing="false" prefHeight="35.0" prefWidth="290.0" text="Button" BorderPane.alignment="CENTER" />
+               </center>
+            </BorderPane>
          </children>
       </Pane>
-      <StackPane centerShape="false" prefHeight="90.0" prefWidth="900.0" style="-fx-background-color: #2C2F33;">
+      <StackPane centerShape="false" prefHeight="90.0" prefWidth="1000.0" style="-fx-background-color: #2C2F33;">
          <effect>
             <DropShadow height="23.56" radius="11.32" width="23.72">
                <color>
@@ -78,6 +101,7 @@
                <font>
                   <Font size="96.0" />
                </font></FontAwesomeIconView>
+            <JFXButton mnemonicParsing="false" prefHeight="30.0" prefWidth="47.0" textFill="#5865f2" />
          </children>
       </StackPane>
    </children>
