@@ -3,8 +3,6 @@ package me.aiglez.disamper.interventions.views
 import com.jfoenix.controls.JFXButton
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon
 import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory
-import javafx.beans.property.SimpleStringProperty
-import javafx.beans.property.StringProperty
 import javafx.collections.transformation.FilteredList
 import javafx.geometry.Pos
 import javafx.scene.control.Button
@@ -16,7 +14,6 @@ import me.aiglez.disamper.interventions.models.InterventionModel
 import me.aiglez.disamper.interventions.utils.jfxbutton
 import me.aiglez.disamper.interventions.utils.jfxtextfield
 import tornadofx.*
-import java.util.List
 
 
 class HistoryView : View("DISAMPER") {
@@ -195,21 +192,5 @@ class HistoryView : View("DISAMPER") {
         column.isReorderable = false
         column.isResizable = false
         column.isSortable = sortable
-    }
-
-    class Person(firstName: String, lastName: String) {
-
-        val firstName: StringProperty = SimpleStringProperty(firstName)
-        val lastName: StringProperty = SimpleStringProperty(lastName)
-
-        companion object {
-
-            var members = List.of(
-                Person("William", "Reed"),
-                Person("James", "Michaelson"),
-                Person("Julius", "Dean")
-            )
-
-        }
     }
 }
