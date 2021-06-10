@@ -3,9 +3,8 @@ plugins {
     id("com.github.johnrengelman.shadow") version "5.2.0"
     java
     application
-
     id("org.openjfx.javafxplugin") version "0.0.9"
-    id("edu.sc.seis.launch4j") version "2.5.0"
+    id("org.mikeneck.graalvm-native-image") version "v1.4.0"
 }
 
 group = "me.aiglez.disamper"
@@ -14,14 +13,6 @@ version = "1.0-SNAPSHOT"
 repositories {
     mavenCentral()
     maven("https://oss.sonatype.org/content/repositories/snapshots")
-}
-
-javafx {
-    modules = listOf("javafx.controls")
-}
-
-launch4j {
-    mainClassName = "me.aiglez.disamper.interventions.MainKt"
 }
 
 dependencies {
@@ -42,6 +33,31 @@ dependencies {
     testImplementation(kotlin("test-junit"))
 }
 
+javafx {
+    modules = listOf("javafx.controls")
+}
+
+application {
+    mainClassName = "me.aiglez.disamper.interventions.MainKt"
+}
+
+nativeImage {
+    graalVmHome = "C:\\Java\\graalvm-ce-java11-21.1.0"
+    buildType { build ->
+        build.executable("me.aiglez.disamper.interventions.MainKt")
+    }
+    executableName = "interventions"
+    outputDirectory = file("$buildDir/executable")
+    arguments(
+        "--no-fallback",
+        "--enable-all-security-services",
+        "--initialize-at-run-time=com.example.runtime",
+        "--report-unsupported-elements-at-runtime",
+        "-H:+ReportExceptionStackTraces",
+        "-H:-CheckToolchain"
+    )
+}
+
 tasks {
     compileKotlin {
         kotlinOptions.jvmTarget = "11"
@@ -49,4 +65,5 @@ tasks {
     compileTestKotlin {
         kotlinOptions.jvmTarget = "11"
     }
+    nativeImage.get().dependsOn.add(shadowJar)
 }
