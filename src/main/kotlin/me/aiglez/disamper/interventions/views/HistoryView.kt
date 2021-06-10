@@ -5,8 +5,10 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon
 import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory
 import javafx.collections.transformation.FilteredList
 import javafx.geometry.Pos
-import javafx.scene.control.Button
 import javafx.scene.control.TableColumn
+import javafx.scene.control.TableView
+import javafx.scene.effect.DropShadow
+import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import me.aiglez.disamper.interventions.WIDTH
 import me.aiglez.disamper.interventions.controllers.DatabaseController
@@ -20,14 +22,85 @@ class HistoryView : View("DISAMPER") {
 
     private val database: DatabaseController by inject()
 
-    private lateinit var printButton: Button
+    private lateinit var table: TableView<InterventionModel>
+    private lateinit var printButton : JFXButton
+    private lateinit var saveButton : JFXButton
+    private lateinit var deleteButton : JFXButton
 
     override val root = pane {
         style {
             backgroundColor = multi(c("#fafafa"))
         }
 
-        add(HeaderFragment::class)
+        stackpane {
+            prefHeight = 90.0; prefWidth = WIDTH
+            isCenterShape = false
+            style {
+                backgroundColor = multi(Color.WHITESMOKE)
+            }
+            effect = DropShadow(35.0, c("#d8d8d8"))
+
+            // text
+            text("DISAMPER") {
+                fill = c("#5865F2")
+                font = loadFont("/fonts/roboto-medium.ttf", 29)
+                effect = DropShadow(10.0, c("#d8d8d8"))
+
+                stackpaneConstraints {
+                    alignment = Pos.CENTER_LEFT
+                    marginLeft = 20.0
+                }
+            }
+
+            // button
+            jfxbutton("AJOUTER", JFXButton.ButtonType.RAISED) {
+                prefHeight = 37.0; prefWidth = 107.0
+
+                ripplerFill = c("#66BB6A")
+                textFill = c("#FFFFFF")
+                font = Font.font("Segoe UI Semibold", 15.0)
+
+                graphic = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.PLUS).apply {
+                    fill = c("#FFFFFF")
+                }
+
+                stackpaneConstraints {
+                    alignment = Pos.CENTER_RIGHT
+                    marginRight = 20.0
+                }
+
+                style {
+                    backgroundColor = multi(c("#54a957"))
+                }
+
+                action {
+                    replaceWith<AddView>()
+                }
+            }
+
+            // icon
+            add(
+                FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.BOLT, "50").apply {
+                    fill = c("#5865F2")
+                    effect = DropShadow(10.0, c("#d8d8d8"))
+                    onHover {
+                        style = if (it) {
+                            String.format(
+                                "-fx-font-family: %s; -fx-font-size: %s;",
+                                FontAwesomeIcon.BOLT.fontFamily(),
+                                60
+                            )
+                        } else {
+                            String.format(
+                                "-fx-font-family: %s; -fx-font-size: %s;",
+                                FontAwesomeIcon.BOLT.fontFamily(),
+                                50
+                            )
+                        }
+                    }
+                }
+            )
+        }
 
         pane {
             prefHeight = 610.0; prefWidth = WIDTH
@@ -54,6 +127,17 @@ class HistoryView : View("DISAMPER") {
                         unFocusColor = c("#dbdbdb")
                         promptText = "RECHERCHER..."
                         isLabelFloat = true
+
+                        // we disable buttons and remove selection
+                        focusedProperty().addListener { _, _, newValue ->
+                            if (newValue) {
+                                table.selectionModel.clearSelection()
+
+                                printButton.isDisable = true
+                                saveButton.isDisable = true
+                                deleteButton.isDisable = true
+                            }
+                        }
 
                         textProperty().addListener { _, _, newValue ->
                             filteredList.setPredicate { i ->
@@ -83,7 +167,7 @@ class HistoryView : View("DISAMPER") {
                 prefHeight = 35.0; prefWidth = 900.0
 
                 left {
-                    jfxbutton("SAUVEGARDER", JFXButton.ButtonType.RAISED) {
+                    saveButton = jfxbutton("SAUVEGARDER", JFXButton.ButtonType.RAISED) {
                         prefHeight = 35.0; prefWidth = 290.0
 
                         ripplerFill = c("#66BB6A")
@@ -98,11 +182,13 @@ class HistoryView : View("DISAMPER") {
                         style {
                             backgroundColor = multi(c("#54a957"))
                         }
+
+                        isDisable = true
                     }
                 }
 
                 center {
-                    jfxbutton("IMPRIMER", JFXButton.ButtonType.RAISED) {
+                    printButton = jfxbutton("IMPRIMER", JFXButton.ButtonType.RAISED) {
                         prefHeight = 35.0; prefWidth = 290.0
 
                         ripplerFill = c("#7784ff")
@@ -119,13 +205,15 @@ class HistoryView : View("DISAMPER") {
                         }
 
                         borderpaneConstraints {
-                            alignment = Pos.TOP_CENTER
+                            alignment = Pos.CENTER
                         }
+
+                        isDisable = true
                     }
                 }
 
                 right {
-                    jfxbutton("SUPPRIMER", JFXButton.ButtonType.RAISED) {
+                    deleteButton = jfxbutton("SUPPRIMER", JFXButton.ButtonType.RAISED) {
                         prefHeight = 35.0; prefWidth = 290.0
 
                         ripplerFill = c("#E57373")
@@ -146,12 +234,18 @@ class HistoryView : View("DISAMPER") {
                 }
             }
 
-            tableview(filteredList) {
+            table = tableview(filteredList) {
                 layoutX = 50.0; layoutY = 104.0
                 prefHeight = 415.0; prefWidth = 900.0
 
-                setOnMouseClicked {
-                    println("Clicked")
+                placeholder = label("Aucune interventions sur la base de données") {
+                    font = loadFont("/fonts/roboto-regular.ttf", 13)
+                }
+
+                onUserSelect {
+                    printButton.isDisable = false
+                    saveButton.isDisable = false
+                    deleteButton.isDisable = false
                 }
 
                 column("ID", InterventionModel::id) {

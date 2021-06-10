@@ -12,7 +12,6 @@ import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
 import tornadofx.*
 import java.sql.Connection
-import java.time.LocalDate
 
 class DatabaseController: Controller() {
 
@@ -35,34 +34,13 @@ class DatabaseController: Controller() {
         transaction {
             addLogger(StdOutSqlLogger)
             SchemaUtils.create(Interventions)
-
-            Intervention.new {
-                lastName = "Brakha"
-                firstName = "Brahim"
-                functions = "Gérant"
-
-                client = "44 LLC"
-                date = LocalDate.of(2021, 2, 5)
-            }
-
-            Intervention.new {
-                lastName = "AISSAOUI"
-                firstName = "Ilyass"
-                functions = "Co-Gérant"
-
-                client = "AITNASSER LLC"
-                date = LocalDate.of(2021, 2, 8)
-            }
-
-            Intervention.new {
-                lastName = "Benrabah"
-                firstName = "Imad"
-                functions = "Chawch"
-
-                client = "L7anous"
-                date = LocalDate.of(2020, 5, 10)
-            }
         }
     }
 
+    fun deleteIntervention(model: InterventionModel) {
+        transaction {
+            model.item.delete()
+        }
+        cache.remove(model)
+    }
 }
