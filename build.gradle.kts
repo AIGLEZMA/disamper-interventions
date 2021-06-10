@@ -58,6 +58,10 @@ nativeImage {
     )
 }
 
+tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
+    archiveFileName.set("${archiveBaseName}-${archiveClassifier}.${archiveExtension}")
+}
+
 tasks {
     compileKotlin {
         kotlinOptions.jvmTarget = "11"

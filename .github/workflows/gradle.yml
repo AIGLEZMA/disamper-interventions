@@ -59,9 +59,6 @@ jobs:
         env:
           JAVA_HOME: ./graalvm-ce-java11-20.1.0
         run: |
-          Dir
-          Expand-Archive -path 'disamper-interventions-all.jar.zip' -destinationpath '.'
-          Dir
           call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
           ./graalvm-ce-java11-20.1.0/bin/native-image --no-server --no-fallback -H:ReflectionConfigurationResources=reflection-config.json -H:IncludeResources=logback.xml -H:Name=disamper-interventions-all --allow-incomplete-classpath -jar disamper-interventions-all.jar
       - name: 'Publish Windows Image'
