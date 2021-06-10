@@ -133,9 +133,7 @@ class HistoryView : View("DISAMPER") {
                             if (newValue) {
                                 table.selectionModel.clearSelection()
 
-                                printButton.isDisable = true
-                                saveButton.isDisable = true
-                                deleteButton.isDisable = true
+                                updateButtons()
                             }
                         }
 
@@ -229,6 +227,14 @@ class HistoryView : View("DISAMPER") {
                             backgroundColor = multi(c("#D32F2F"))
                         }
 
+                        action {
+                            runAsync {
+                                database.deleteIntervention(table.selectedItem!!)
+                                table.selectionModel.clearSelection()
+                                updateButtons()
+                            }
+                        }
+
                         isDisable = true
                     }
                 }
@@ -243,9 +249,7 @@ class HistoryView : View("DISAMPER") {
                 }
 
                 onUserSelect {
-                    printButton.isDisable = false
-                    saveButton.isDisable = false
-                    deleteButton.isDisable = false
+                    updateButtons()
                 }
 
                 column("ID", InterventionModel::id) {
@@ -286,5 +290,17 @@ class HistoryView : View("DISAMPER") {
         column.isReorderable = false
         column.isResizable = false
         column.isSortable = sortable
+    }
+
+    private fun updateButtons() {
+        if (table.selectedItem == null) {
+            printButton.isDisable = true
+            saveButton.isDisable = true
+            deleteButton.isDisable = true
+        } else {
+            printButton.isDisable = false
+            saveButton.isDisable = false
+            deleteButton.isDisable = false
+        }
     }
 }

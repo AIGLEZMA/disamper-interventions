@@ -42,5 +42,7 @@ class DatabaseController: Controller() {
             model.item.delete()
         }
         cache.remove(model)
+
+        println("Database - deleted an intervention (id: ${model.id.value})")
     }
 }
