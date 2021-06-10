@@ -59,7 +59,7 @@ nativeImage {
 }
 
 tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
-    archiveFileName.set("${archiveBaseName}-${archiveClassifier}.${archiveExtension}")
+    archiveFileName.set("disamper-interventions-all.jar")
 }
 
 tasks {
