@@ -86,7 +86,7 @@
                   <Font name="Segoe UI Semibold" size="30.0" />
                </font>
             </Text>
-            <JFXButton buttonType="RAISED" mnemonicParsing="false" ripplerFill="#23272a" style="-fx-background-color: #57F287;" text="AJOUTER" textFill="WHITE" StackPane.alignment="CENTER_RIGHT">
+            <JFXButton buttonType="RAISED" mnemonicParsing="false" ripplerFill="#23272a" style="-fx-background-color: #57F287;" text="HISTORIQUE" textFill="WHITE" StackPane.alignment="CENTER_RIGHT">
                <StackPane.margin>
                   <Insets right="20.0" />
                </StackPane.margin>
@@ -94,7 +94,7 @@
                   <Font name="Segoe UI Semibold" size="16.0" />
                </font>
                <graphic>
-                  <FontAwesomeIconView fill="WHITE" glyphName="PLUS" strokeType="OUTSIDE" strokeWidth="0.0" />
+                  <FontAwesomeIconView fill="WHITE" glyphName="HISTORY" strokeType="OUTSIDE" strokeWidth="0.0" />
                </graphic>
             </JFXButton>
             <FontAwesomeIconView fill="WHITE" glyphName="BOLT" size="50" strokeType="OUTSIDE" strokeWidth="0.0" text="">

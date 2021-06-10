@@ -22,6 +22,14 @@ class AddView : View("DISAMPER") {
 
     private val database: DatabaseController by inject()
 
+    private lateinit var lastNameField: JFXTextField
+    private lateinit var firstNameField: JFXTextField
+    private lateinit var functionsField: JFXTextField
+    private lateinit var clientField: JFXTextField
+    private lateinit var datePicker: JFXDatePicker
+    private lateinit var noteArea: JFXTextArea
+
+
     @Suppress("DuplicatedCode")
     override val root = pane {
         style {
@@ -49,14 +57,14 @@ class AddView : View("DISAMPER") {
             }
 
             // button
-            jfxbutton("AJOUTER", JFXButton.ButtonType.RAISED) {
-                prefHeight = 37.0; prefWidth = 107.0
+            jfxbutton("HISTORIQUE", JFXButton.ButtonType.RAISED) {
+                prefHeight = 37.0; prefWidth = 133.0
 
                 ripplerFill = c("#66BB6A")
                 textFill = c("#FFFFFF")
                 font = Font.font("Segoe UI Semibold", 15.0)
 
-                graphic = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.PLUS).apply {
+                graphic = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.HISTORY).apply {
                     fill = c("#FFFFFF")
                 }
 
@@ -70,7 +78,8 @@ class AddView : View("DISAMPER") {
                 }
 
                 action {
-                    replaceWith<AddView>()
+                    clearFields()
+                    replaceWith<HistoryView>()
                 }
             }
 
@@ -119,27 +128,27 @@ class AddView : View("DISAMPER") {
                 }
 
                 // last name field
-                jfxtextfield(labelFloat = true, promptText = "NOM *") {
+                lastNameField = jfxtextfield(labelFloat = true, promptText = "NOM *") {
                     correct(true, 14.0, 121.0, this)
                 }
 
                 // first name field
-                jfxtextfield(labelFloat = true, promptText = "PRÉNOM *") {
+                firstNameField = jfxtextfield(labelFloat = true, promptText = "PRÉNOM *") {
                     correct(true, 326.0, 121.0, this)
                 }
 
                 // client field
-                jfxtextfield(labelFloat = true, promptText = "CLIENT *") {
+                clientField = jfxtextfield(labelFloat = true, promptText = "CLIENT *") {
                     correct(false, 326.0, 198.0, this)
                 }
 
                 // functions field
-                jfxtextfield(labelFloat = true, promptText = "FONCTION(s) *") {
+                functionsField = jfxtextfield(labelFloat = true, promptText = "FONCTION(s) *") {
                     correct(false, 14.0, 198.0, this)
                 }
 
                 // date picker
-                jfxdatepicker() {
+                datePicker = jfxdatepicker() {
                     prefHeight = 29.0; prefWidth = 534.0
                     layoutX = 14.0; layoutY = 275.0
 
@@ -159,7 +168,7 @@ class AddView : View("DISAMPER") {
                 }
 
                 // note or observation area
-                jfxtextarea() {
+                noteArea = jfxtextarea() {
                     prefHeight = 70.0; prefWidth = 533.0
                     layoutX = 14.0; layoutY = 339.0
 
@@ -173,10 +182,15 @@ class AddView : View("DISAMPER") {
 
                 // save button
                 jfxbutton("SAUVEGARDER", JFXButton.ButtonType.RAISED) {
-                    correct(14.0, 467.0, "#54a957", "#66BB6A", FontAwesomeIcon.SAVE,this)
+                    correct(14.0, 467.0, "#54a957", "#66BB6A", this)
 
                     action {
-                        if (!true) {
+                        if (lastNameField.text.isNullOrEmpty()
+                            || firstNameField.text.isNullOrEmpty()
+                            || functionsField.text.isNullOrEmpty()
+                            || clientField.text.isNullOrEmpty()
+                            || datePicker.value == null
+                        ) {
                             val childrens = this@pane.childrenUnmodifiable
                             for (child in childrens) {
                                 if (child is JFXTextField) {
@@ -188,14 +202,18 @@ class AddView : View("DISAMPER") {
                             return@action
                         }
                         runAsync {
-                            //database.save()
+                            database.createIntervention(
+                                lastNameField.text, firstNameField.text, functionsField.text,
+                                clientField.text, datePicker.value, noteArea.text
+                            )
+                            clearFields()
                         }
                     }
                 }
 
                 // print button
                 jfxbutton("IMPRIMER", JFXButton.ButtonType.RAISED) {
-                    correct(326.0, 467.0, "#5865F2", "#7784ff", FontAwesomeIcon.SAVE,this)
+                    correct(326.0, 467.0, "#5865F2", "#7784ff", this)
 
                     action {
                         if (!true) {
@@ -261,6 +279,15 @@ class AddView : View("DISAMPER") {
         }
     }
 
+    private fun clearFields() {
+        this.lastNameField.clear()
+        this.firstNameField.clear()
+        this.functionsField.clear()
+        this.clientField.clear()
+        this.datePicker.value = null
+        this.noteArea.clear()
+    }
+
     private fun correct(regex: Boolean, x: Double, y: Double, field: JFXTextField) {
         field.layoutX = x; field.layoutY = y
         field.prefHeight = 29.0; field.prefWidth = 220.0
@@ -285,16 +312,11 @@ class AddView : View("DISAMPER") {
         }
     }
 
-    private fun correct(x: Double, y: Double, color: String, ripperFill: String, icon: FontAwesomeIcon, button: JFXButton) {
+    private fun correct(x: Double, y: Double, color: String, ripperFill: String, button: JFXButton) {
         button.layoutX = x; button.layoutY = y
         button.prefHeight = 34.0; button.prefWidth = 220.0
 
         button.ripplerFill = c(ripperFill)
-
-        button.graphic = FontAwesomeIconFactory.get().createIcon(icon)
-            .apply {
-                fill = c("#FFFFFF")
-            }
 
         button.style {
             backgroundColor = multi(c(color))

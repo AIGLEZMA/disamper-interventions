@@ -12,6 +12,8 @@ import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
 import tornadofx.*
 import java.sql.Connection
+import java.time.LocalDate
+import java.util.*
 
 class DatabaseController: Controller() {
 
@@ -35,6 +37,26 @@ class DatabaseController: Controller() {
             addLogger(StdOutSqlLogger)
             SchemaUtils.create(Interventions)
         }
+    }
+
+    @OptIn(ExperimentalStdlibApi::class)
+    fun createIntervention(lastName: String, firstName: String, functions: String, client: String, date: LocalDate, note: String?) {
+        transaction {
+            val intervention = Intervention.new {
+                this.lastName = lastName.uppercase()
+                this.firstName = firstName.capitalize(Locale.FRANCE)
+                this.functions = functions.capitalize()
+                this.client = client.capitalize()
+                this.date = date
+                this.note = note
+            }
+            cache.add(
+                InterventionModel().apply {
+                    item = intervention
+                })
+        }
+
+        println("Database - created an intervention")
     }
 
     fun deleteIntervention(model: InterventionModel) {
