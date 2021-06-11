@@ -32,9 +32,9 @@ jobs:
           DIR
           DIR build/gluonfx/x86_64-windows/
           DIR build/gluonfx/x86_64-windows/gvm/
-          DIR build/gluonfx/x86_64-windows/disamper-interventions/
-          DIR build/gluonfx/x86_64-windows/lib/
-          DIR build/gluonfx/x86_64-windows/tmp/
+          DIR build/gluonfx/x86_64-windows/gvm/disamper-interventions/
+          DIR build/gluonfx/x86_64-windows/gvm/lib/
+          DIR build/gluonfx/x86_64-windows/gvm/tmp/
           DIR staging
 
       - name: Copy native gluonfx to staging
