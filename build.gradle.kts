@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "me.aiglez.disamper"
-version = "1.0-SNAPSHOT"
+//version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -42,9 +42,12 @@ application {
     mainClassName = "me.aiglez.disamper.interventions.MainKt"
 }
 
-
 tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
-    archiveFileName.set("disamper-interventions-all.jar")
+    archiveFileName.set("disamper-interventions.jar")
+}
+
+tasks.withType<com.gluonhq.gradle.tasks.NativeBuildTask> {
+
 }
 
 tasks {
@@ -53,5 +56,8 @@ tasks {
     }
     compileTestKotlin {
         kotlinOptions.jvmTarget = "11"
+    }
+    jar {
+        archiveBaseName.set("disamper-interventions.jar")
     }
 }
