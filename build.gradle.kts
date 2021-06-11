@@ -50,6 +50,10 @@ tasks.withType<com.gluonhq.gradle.tasks.NativeBuildTask> {
 
 }
 
+gluonfx {
+    isVerbose = true
+}
+
 tasks {
     compileKotlin {
         kotlinOptions.jvmTarget = "11"
