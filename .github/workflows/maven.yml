@@ -1,6 +1,8 @@
 name: Windows
 
 on:
+  push:
+    branches: [ master ]
 
 jobs:
   build:
@@ -22,23 +24,21 @@ jobs:
       - name: Make staging directory
         run: mkdir staging
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
       - name: Gluon Build
-        run: |
-          ./gradlew nativeBuild --warning-mode=all -stacktrace
-          DIR
-          DIR build/gluonfx/x86_64-windows/
-          DIR build/gluonfx/x86_64-windows/gvm/
-          DIR build/gluonfx/x86_64-windows/gvm/disamper-interventions/
-          DIR build/gluonfx/x86_64-windows/gvm/lib/
-          DIR build/gluonfx/x86_64-windows/gvm/tmp/
-          DIR build/gluonfx/x86_64-windows/gvm/SVM-1623445501589/
-          DIR staging
+        run: mvn -Pdesktop gluonfx:build gluonfx:package
 
       - name: Copy native gluonfx to staging
-        run: cp -r build/gluonfx/x86_64-windows/disamper-interventions.exe staging
+        run: |
+          cp -r target/gluonfx/x86_64-windows/Interventions.exe staging
+          DIR
+          DIR
+          DIR target/gluonfx/x86_64-windows/
+          DIR target/gluonfx/x86_64-windows/gvm/
+          DIR target/gluonfx/x86_64-windows/gvm/disamper-interventions/
+          DIR target/gluonfx/x86_64-windows/gvm/lib/
+          DIR target/gluonfx/x86_64-windows/gvm/tmp/
+          DIR target/gluonfx/x86_64-windows/gvm/SVM-1623445501589/
+          DIR staging
 
       - name: Upload
         uses: actions/upload-artifact@v2
