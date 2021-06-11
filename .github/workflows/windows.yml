@@ -28,7 +28,7 @@ jobs:
 
       - name: Gluon Build
         run: |
-          ./gradlew nativeBuild
+          ./gradlew nativeBuild --warning-mode=all -stacktrace
           DIR
           DIR build/gluonfx/x86_64-windows/
 
