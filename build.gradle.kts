@@ -4,7 +4,7 @@ plugins {
     java
     application
     id("org.openjfx.javafxplugin") version "0.0.9"
-    id("org.mikeneck.graalvm-native-image") version "v1.4.0"
+    id("com.gluonhq.gluonfx-gradle-plugin") version "0.9.0"
 }
 
 group = "me.aiglez.disamper"
@@ -13,6 +13,7 @@ version = "1.0-SNAPSHOT"
 repositories {
     mavenCentral()
     maven("https://oss.sonatype.org/content/repositories/snapshots")
+    maven("https://plugins.gradle.org/m2/")
 }
 
 dependencies {
@@ -41,22 +42,6 @@ application {
     mainClassName = "me.aiglez.disamper.interventions.MainKt"
 }
 
-nativeImage {
-    graalVmHome = "C:\\Java\\graalvm-ce-java11-21.1.0"
-    buildType { build ->
-        build.executable("me.aiglez.disamper.interventions.MainKt")
-    }
-    executableName = "interventions"
-    outputDirectory = file("$buildDir/executable")
-    arguments(
-        "--no-fallback",
-        "--enable-all-security-services",
-        "--initialize-at-run-time=com.example.runtime",
-        "--report-unsupported-elements-at-runtime",
-        "-H:+ReportExceptionStackTraces",
-        "-H:-CheckToolchain"
-    )
-}
 
 tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
     archiveFileName.set("disamper-interventions-all.jar")
@@ -69,5 +54,4 @@ tasks {
     compileTestKotlin {
         kotlinOptions.jvmTarget = "11"
     }
-    nativeImage.get().dependsOn.add(shadowJar)
 }
