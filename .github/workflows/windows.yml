@@ -28,9 +28,9 @@ jobs:
 
       - name: Gluon Build
         run: |
-          - ./gradlew nativeBuild
-          - DIR
-          - DIR build/gluonfx/x86_64-windows/
+          ./gradlew nativeBuild
+          DIR
+          DIR build/gluonfx/x86_64-windows/
 
       - name: Copy native gluonfx to staging
         run: cp -r build/gluonfx/x86_64-windows/disamper-interventions.exe.exe staging
