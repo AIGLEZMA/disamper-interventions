@@ -37,6 +37,13 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>2.0.24</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>11.0.2</version>
@@ -52,6 +59,12 @@
             <groupId>com.jfoenix</groupId>
             <artifactId>jfoenix</artifactId>
             <version>9.0.10</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.framework</artifactId>
+            <version>1.9.0</version>
             <scope>compile</scope>
         </dependency>
 
@@ -202,10 +215,22 @@
                 <artifactId>gluonfx-maven-plugin</artifactId>
                 <version>0.9.0</version>
                 <configuration>
+                    <nativeImageArgs>
+                        <list>-H:+AllowIncompleteClasspath</list>
+                        <list>--no-fallback</list>
+                    </nativeImageArgs>
                     <target>host</target>
                     <mainClass>${main.class}</mainClass>
                     <reflectionList>
                         <list>me.aiglez.disamper.interventions.Application</list>
+                        <list>me.aiglez.disamper.interventions.controllers.DatabaseController</list>
+                        <list>me.aiglez.disamper.interventions.models.Intervention</list>
+                        <list>me.aiglez.disamper.interventions.models.InterventionModel</list>
+                        <list>me.aiglez.disamper.interventions.models.Interventions</list>
+                        <list>me.aiglez.disamper.interventions.utils.ComponentsKt</list>
+                        <list>me.aiglez.disamper.interventions.utils.ReplaceContentEvent</list>
+                        <list>me.aiglez.disamper.interventions.views.AddView</list>
+                        <list>me.aiglez.disamper.interventions.views.HistoryView</list>
                     </reflectionList>
                 </configuration>
             </plugin>
