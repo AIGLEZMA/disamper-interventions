@@ -218,6 +218,7 @@
                     <nativeImageArgs>
                         <list>-H:+AllowIncompleteClasspath</list>
                         <list>--no-fallback</list>
+                        <list>--enable-url-protocols=css</list>
                     </nativeImageArgs>
                     <target>host</target>
                     <mainClass>${main.class}</mainClass>
@@ -231,6 +232,8 @@
                         <list>me.aiglez.disamper.interventions.utils.ReplaceContentEvent</list>
                         <list>me.aiglez.disamper.interventions.views.AddView</list>
                         <list>me.aiglez.disamper.interventions.views.HistoryView</list>
+                        <list>de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory</list>
+                        <list>de.jensd.fx.glyphs.GlyphsFactory</list>
                     </reflectionList>
                 </configuration>
             </plugin>
