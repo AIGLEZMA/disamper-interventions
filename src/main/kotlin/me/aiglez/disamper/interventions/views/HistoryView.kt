@@ -10,7 +10,6 @@ import javafx.scene.control.TableView
 import javafx.scene.effect.DropShadow
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
-import me.aiglez.disamper.interventions.WIDTH
 import me.aiglez.disamper.interventions.controllers.DatabaseController
 import me.aiglez.disamper.interventions.models.InterventionModel
 import me.aiglez.disamper.interventions.utils.jfxbutton
@@ -33,7 +32,7 @@ class HistoryView : View("DISAMPER") {
         }
 
         stackpane {
-            prefHeight = 90.0; prefWidth = WIDTH
+            prefHeight = 90.0; prefWidth = 1000.0
             isCenterShape = false
             style {
                 backgroundColor = multi(Color.WHITESMOKE)
@@ -103,7 +102,7 @@ class HistoryView : View("DISAMPER") {
         }
 
         pane {
-            prefHeight = 610.0; prefWidth = WIDTH
+            prefHeight = 610.0; prefWidth = 1000.0
             layoutY = 90.0
 
             val filteredList = FilteredList(database.cache) { true }

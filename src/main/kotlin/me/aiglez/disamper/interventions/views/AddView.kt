@@ -10,7 +10,6 @@ import javafx.scene.effect.DropShadow
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.stage.Modality
-import me.aiglez.disamper.interventions.WIDTH
 import me.aiglez.disamper.interventions.controllers.DatabaseController
 import me.aiglez.disamper.interventions.utils.jfxbutton
 import me.aiglez.disamper.interventions.utils.jfxdatepicker
@@ -37,7 +36,7 @@ class AddView : View("DISAMPER") {
         }
 
         stackpane {
-            prefHeight = 90.0; prefWidth = WIDTH
+            prefHeight = 90.0; prefWidth = 1000.0
             isCenterShape = false
             style {
                 backgroundColor = multi(Color.WHITESMOKE)
