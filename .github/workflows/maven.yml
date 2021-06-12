@@ -30,6 +30,10 @@ jobs:
           DIR target/gluonfx/x86_64-windows/
           DIR target/gluonfx/x86_64-windows/gvm/
 
+      - name: Gluon Run
+        run: |
+          mvn -Pdesktop gluonfx:run
+
       - name: Copy native gluonfx to staging
         run: cp -r target/gluonfx/x86_64-windows/Interventions.exe staging
 

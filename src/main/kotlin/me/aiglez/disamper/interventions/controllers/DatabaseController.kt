@@ -11,9 +11,11 @@ import org.jetbrains.exposed.sql.addLogger
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
 import tornadofx.*
+import java.io.File
 import java.sql.Connection
 import java.time.LocalDate
 import java.util.*
+import javax.swing.filechooser.FileSystemView
 
 class DatabaseController: Controller() {
 
@@ -29,8 +31,11 @@ class DatabaseController: Controller() {
     }
 
     init {
+        val documents = File(File(FileSystemView.getFileSystemView().defaultDirectory, "Disamper"), "Interventions")
+        documents.mkdirs()
+        println(documents.path)
 
-        Database.connect("jdbc:sqlite:/data.db", driver = "org.sqlite.JDBC")
+        Database.connect("jdbc:sqlite:${documents.path}\\data.db", driver = "org.sqlite.JDBC")
         TransactionManager.manager.defaultIsolationLevel = Connection.TRANSACTION_SERIALIZABLE
 
         transaction {
