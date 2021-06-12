@@ -29,11 +29,6 @@ jobs:
           DIR
           DIR target/gluonfx/x86_64-windows/
           DIR target/gluonfx/x86_64-windows/gvm/
-          DIR target/gluonfx/x86_64-windows/gvm/disamper-interventions/
-          DIR target/gluonfx/x86_64-windows/gvm/lib/
-          DIR target/gluonfx/x86_64-windows/gvm/tmp/
-          DIR target/gluonfx/x86_64-windows/gvm/SVM-1623445501589/
-          DIR staging
 
       - name: Copy native gluonfx to staging
         run: cp -r target/gluonfx/x86_64-windows/Interventions.exe staging
