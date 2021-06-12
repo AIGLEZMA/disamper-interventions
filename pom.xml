@@ -204,6 +204,9 @@
                 <configuration>
                     <target>host</target>
                     <mainClass>${main.class}</mainClass>
+                    <reflectionList>
+                        <list>me.aiglez.disamper.interventions.Application</list>
+                    </reflectionList>
                 </configuration>
             </plugin>
         </plugins>
