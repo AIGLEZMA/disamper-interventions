@@ -233,6 +233,7 @@
                         <list>me.aiglez.disamper.interventions.views.AddView</list>
                         <list>me.aiglez.disamper.interventions.views.HistoryView</list>
                         <list>de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory</list>
+                        <list>de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView</list>
                         <list>de.jensd.fx.glyphs.GlyphsFactory</list>
                     </reflectionList>
                 </configuration>

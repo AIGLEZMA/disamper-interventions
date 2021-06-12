@@ -16,6 +16,8 @@ class DocumentController : Controller() {
 
         val content = with(PDPageContentStream(document, page)) {
             beginText()
+
+            close()
         }
 
 
