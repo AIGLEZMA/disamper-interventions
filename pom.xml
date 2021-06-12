@@ -185,7 +185,6 @@
                 <configuration>
                     <target>host</target>
                     <mainClass>${main.class}</mainClass>
-                    <verbose>true</verbose>
                 </configuration>
             </plugin>
         </plugins>
