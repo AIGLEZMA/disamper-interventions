@@ -3,8 +3,6 @@ package me.aiglez.disamper.interventions.views
 import com.jfoenix.controls.*
 import com.jfoenix.validation.RegexValidator
 import com.jfoenix.validation.RequiredFieldValidator
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon
-import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory
 import javafx.geometry.Pos
 import javafx.scene.effect.DropShadow
 import javafx.scene.paint.Color
@@ -63,10 +61,6 @@ class AddView : View("DISAMPER") {
                 textFill = c("#FFFFFF")
                 font = Font.font("Segoe UI Semibold", 15.0)
 
-                graphic = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.HISTORY).apply {
-                    fill = c("#FFFFFF")
-                }
-
                 stackpaneConstraints {
                     alignment = Pos.CENTER_RIGHT
                     marginRight = 20.0
@@ -81,29 +75,6 @@ class AddView : View("DISAMPER") {
                     replaceWith<HistoryView>()
                 }
             }
-
-            // icon
-            add(
-                FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.BOLT, "50").apply {
-                    fill = c("#5865F2")
-                    effect = DropShadow(10.0, c("#d8d8d8"))
-                    onHover {
-                        style = if (it) {
-                            String.format(
-                                "-fx-font-family: %s; -fx-font-size: %s;",
-                                FontAwesomeIcon.BOLT.fontFamily(),
-                                60
-                            )
-                        } else {
-                            String.format(
-                                "-fx-font-family: %s; -fx-font-size: %s;",
-                                FontAwesomeIcon.BOLT.fontFamily(),
-                                50
-                            )
-                        }
-                    }
-                }
-            )
         }
 
         stackpane {
@@ -156,10 +127,7 @@ class AddView : View("DISAMPER") {
                     isOverLay = true
                     dialogParent = this@stackpane
 
-                    validators.add(
-                        RequiredFieldValidator("Champ requis")
-                            .apply { icon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.WARNING) },
-                    )
+                    validators.add(RequiredFieldValidator("Champ requis"))
 
                     focusedProperty().addListener { _, _, newVal ->
                         if (!newVal) validate()
@@ -296,14 +264,9 @@ class AddView : View("DISAMPER") {
         field.font = loadFont("/fonts/roboto-regular.ttf", 13.0)
         field.isLabelFloat = true
 
-        field.validators += RequiredFieldValidator("Champ requis").apply {
-            icon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.WARNING)
-        }
+        field.validators += RequiredFieldValidator("Champ requis")
         if (regex) {
-            field.validators += RegexValidator("Invalide !").apply {
-                    icon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.WARNING)
-                    regexPattern = NAME_REGEX_PATTERN
-                }
+            field.validators += RegexValidator("Invalide !").apply { regexPattern = NAME_REGEX_PATTERN }
         }
 
         field.focusedProperty().addListener { _, _, newVal ->

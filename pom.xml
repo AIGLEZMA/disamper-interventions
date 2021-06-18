@@ -8,9 +8,22 @@
     <packaging>jar</packaging>
 
     <name>Interventions</name>
+    <description>Gérer facilement vos interventions</description>
 
     <properties>
-        <main.class>me.aiglez.disamper.interventions.Bootstrap</main.class>
+        <main.class>me.aiglez.disamper.interventions.MainKt</main.class>
+
+        <app.class>me.aiglez.disamper.interventions.Main</app.class>
+        <app.filename>disamper-interventions</app.filename>
+        <app.cacheDir>USERLIB/Disamper/Interventions/Libraries</app.cacheDir>
+        <app.vendor>Disamper SARL</app.vendor>
+        <app.version>1.0</app.version>
+        <app.url>https://aiglez.blob.core.windows.net/interventions/</app.url>
+        <app.deploy.target>w48839@fxldemo.tornado.no:fxldemo</app.deploy.target>
+        <app.dir>${project.build.directory}/app</app.dir>
+        <app.installerdir>${project.build.directory}/installer</app.installerdir>
+        <app.acceptDowngrade>false</app.acceptDowngrade>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <repositories>
@@ -26,6 +39,14 @@
             <id>Sonatype</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>itext-releases</id>
+            <url>https://repo.itextsupport.com/releases</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -33,92 +54,105 @@
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
             <version>1.5.10</version>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.pdfbox</groupId>
-            <artifactId>pdfbox</artifactId>
-            <version>2.0.24</version>
-            <scope>compile</scope>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>kernel</artifactId>
+            <version>7.1.15</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>io</artifactId>
+            <version>7.1.15</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>layout</artifactId>
+            <version>7.1.15</version>
         </dependency>
 
         <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>11.0.2</version>
-            <scope>compile</scope>
+            <groupId>no.tornado</groupId>
+            <artifactId>fxlauncher</artifactId>
+            <version>1.0.21</version>
         </dependency>
         <dependency>
             <groupId>no.tornado</groupId>
             <artifactId>tornadofx</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <version>1.7.20</version>
         </dependency>
         <dependency>
             <groupId>com.jfoenix</groupId>
             <artifactId>jfoenix</artifactId>
-            <version>9.0.10</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.framework</artifactId>
-            <version>1.9.0</version>
-            <scope>compile</scope>
+            <version>8.0.10</version>
         </dependency>
 
         <dependency>
             <groupId>org.jetbrains.exposed</groupId>
             <artifactId>exposed-core</artifactId>
             <version>0.31.1</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.exposed</groupId>
             <artifactId>exposed-dao</artifactId>
             <version>0.31.1</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.exposed</groupId>
             <artifactId>exposed-jdbc</artifactId>
             <version>0.31.1</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.exposed</groupId>
             <artifactId>exposed-java-time</artifactId>
             <version>0.31.1</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.xerial</groupId>
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.30.1</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-nop</artifactId>
             <version>1.7.30</version>
-            <scope>compile</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>2.0.24</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>fontbox</artifactId>
+            <version>2.0.24</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <executions>
-                    <!-- Replacing default-compile as it is treated specially by maven -->
                     <execution>
                         <id>default-compile</id>
                         <phase>none</phase>
                     </execution>
-                    <!-- Replacing default-testCompile as it is treated specially by maven -->
                     <execution>
                         <id>default-testCompile</id>
                         <phase>none</phase>
@@ -129,31 +163,24 @@
                         <goals> <goal>compile</goal> </goals>
                     </execution>
                     <execution>
+                        <id>kotlin-compile</id>
+                        <phase>compile</phase>
+                        <goals> <goal>compile</goal> </goals>
+                    </execution>
+                    <execution>
+                        <id>kotlin-test-compile</id>
+                        <phase>test-compile</phase>
+                        <goals> <goal>testCompile</goal> </goals>
+                    </execution>
+                    <execution>
                         <id>java-test-compile</id>
                         <phase>test-compile</phase>
                         <goals> <goal>testCompile</goal> </goals>
                     </execution>
                 </executions>
                 <configuration>
-                    <compilerArgs>
-                        <arg>--add-opens</arg><arg>javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED</arg>
-                    </compilerArgs>
                     <source>1.8</source>
                     <target>1.8</target>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>${main.class}</mainClass>
-                        </manifest>
-                    </archive>
                 </configuration>
             </plugin>
 
@@ -166,6 +193,7 @@
                         <id>compile</id>
                         <goals> <goal>compile</goal> </goals>
                         <configuration>
+                            <jvmTarget>1.8</jvmTarget>
                             <sourceDirs>
                                 <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
                                 <sourceDir>${project.basedir}/src/main/java</sourceDir>
@@ -186,71 +214,134 @@
             </plugin>
 
             <plugin>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.6</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.6</version>
                 <configuration>
-                    <mainClass>${main.class}</mainClass>
-                    <options>
-                        <option>--add-opens</option><option>javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED</option>
-                        <option>--add-opens</option><option>javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED</option>
-                        <option>--add-opens</option><option>javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED</option>
-                        <option>--add-opens</option><option>javafx.base/com.sun.javafx.binding=ALL-UNNAMED</option>
-                        <option>--add-opens</option><option>javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED</option>
-                        <option>--add-opens</option><option>javafx.base/com.sun.javafx.event=ALL-UNNAMED</option>
-
-
-                        <option>--add-exports</option><option>javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED</option>
-                        <option>--add-exports</option><option>javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED</option>
-                        <option>--add-exports</option><option>javafx.base/com.sun.javafx.binding=ALL-UNNAMED</option>
-                        <option>--add-exports</option><option>javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED</option>
-                        <option>--add-exports</option><option>javafx.base/com.sun.javafx.event=ALL-UNNAMED</option>
-
-                    </options>
+                    <outputDirectory>${app.dir}</outputDirectory>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>${main.class}</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
 
             <plugin>
-                <groupId>com.gluonhq</groupId>
-                <artifactId>gluonfx-maven-plugin</artifactId>
-                <version>0.9.0</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.10</version>
                 <configuration>
-                    <nativeImageArgs>
-                        <list>-H:+AllowIncompleteClasspath</list>
-                        <list>--no-fallback</list>
-                        <list>--enable-url-protocols=css</list>
-                    </nativeImageArgs>
-                    <target>host</target>
-                    <mainClass>${main.class}</mainClass>
-                    <reflectionList>
-                        <list>me.aiglez.disamper.interventions.Application</list>
-                        <list>me.aiglez.disamper.interventions.controllers.DatabaseController</list>
-                        <list>me.aiglez.disamper.interventions.models.Intervention</list>
-                        <list>me.aiglez.disamper.interventions.models.InterventionModel</list>
-                        <list>me.aiglez.disamper.interventions.models.Interventions</list>
-                        <list>me.aiglez.disamper.interventions.utils.ComponentsKt</list>
-                        <list>me.aiglez.disamper.interventions.utils.ReplaceContentEvent</list>
-                        <list>me.aiglez.disamper.interventions.views.AddView</list>
-                        <list>me.aiglez.disamper.interventions.views.HistoryView</list>
-                        <list>de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory</list>
-                        <list>de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView</list>
-                        <list>de.jensd.fx.glyphs.GlyphsFactory</list>
-                    </reflectionList>
+                    <excludeScope>provided</excludeScope>
+                    <outputDirectory>${app.dir}</outputDirectory>
+                    <stripVersion>true</stripVersion>
                 </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>create-manifest</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>fxlauncher.CreateManifest</mainClass>
+                            <arguments>
+                                <argument>${app.url}</argument>
+                                <argument>${app.class}</argument>
+                                <argument>${app.dir}</argument>
+                                <argument>--cache-dir=${app.cacheDir}</argument>
+                                <argument>--accept-downgrade=${app.acceptDowngrade}</argument>
+                                <argument>--include-extensions=jpg</argument>
+                                <argument>--include-extensions=ttf</argument>
+                                <argument>--include-extensions=css</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>embed-manifest-in-launcher</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>jar</executable>
+                            <workingDirectory>${app.dir}</workingDirectory>
+                            <arguments>
+                                <argument>uf</argument>
+                                <argument>fxlauncher.jar</argument>
+                                <argument>app.xml</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>installer</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>javapackager</executable>
+
+                            <arguments>
+                                <argument>-deploy</argument>
+                                <argument>-native</argument>
+                                <argument>-outdir</argument>
+                                <argument>${app.installerdir}</argument>
+                                <argument>-outfile</argument>
+                                <argument>${app.filename}</argument>
+                                <argument>-srcdir</argument>
+                                <argument>${app.dir}</argument>
+                                <argument>-srcfiles</argument>
+                                <argument>fxlauncher.jar</argument>
+                                <argument>-appclass</argument>
+                                <argument>fxlauncher.Launcher</argument>
+                                <argument>-name</argument>
+                                <argument>${project.name}</argument>
+                                <argument>-description</argument>
+                                <argument>${project.description}</argument>
+                                <argument>-title</argument>
+                                <argument>${project.name}</argument>
+                                <argument>-vendor</argument>
+                                <argument>${app.vendor}</argument>
+                                <argument>-BappVersion=${app.version}</argument>
+                                <argument>-Bidentifier=${project.groupId}.${project.artifactId}</argument>
+                                <argument>-Bicon=src/main/resources/icon.ico</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <!-- Copy application artifacts to remote site using scp (optional) -->
+                    <execution>
+                        <id>deploy-app</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>scp</executable>
+                            <arguments>
+                                <argument>-r</argument>
+                                <argument>target/app/.</argument>
+                                <argument>${app.deploy.target}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>desktop</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <client.target>host</client.target>
-            </properties>
-        </profile>
-    </profiles>
 
 </project>

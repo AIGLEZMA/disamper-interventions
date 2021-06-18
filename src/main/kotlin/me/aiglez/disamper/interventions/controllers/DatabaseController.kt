@@ -1,6 +1,7 @@
 package me.aiglez.disamper.interventions.controllers
 
 import javafx.collections.ObservableList
+import me.aiglez.disamper.interventions.folder
 import me.aiglez.disamper.interventions.models.Intervention
 import me.aiglez.disamper.interventions.models.InterventionModel
 import me.aiglez.disamper.interventions.models.Interventions
@@ -11,11 +12,9 @@ import org.jetbrains.exposed.sql.addLogger
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
 import tornadofx.*
-import java.io.File
 import java.sql.Connection
 import java.time.LocalDate
 import java.util.*
-import javax.swing.filechooser.FileSystemView
 
 class DatabaseController: Controller() {
 
@@ -23,7 +22,6 @@ class DatabaseController: Controller() {
         transaction {
             Intervention.all().map {
                 InterventionModel().apply {
-                    println("Intervention -> Model for $it")
                     item = it
                 }
             }.asObservable()
@@ -31,11 +29,7 @@ class DatabaseController: Controller() {
     }
 
     init {
-        val documents = File(File(FileSystemView.getFileSystemView().defaultDirectory, "Disamper"), "Interventions")
-        documents.mkdirs()
-        println(documents.path)
-
-        Database.connect("jdbc:sqlite:${documents.path}\\data.db", driver = "org.sqlite.JDBC")
+        Database.connect("jdbc:sqlite:${folder.path}\\data.db", driver = "org.sqlite.JDBC")
         TransactionManager.manager.defaultIsolationLevel = Connection.TRANSACTION_SERIALIZABLE
 
         transaction {

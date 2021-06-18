@@ -1,8 +1,8 @@
 package me.aiglez.disamper.interventions.views
 
+import com.jfoenix.controls.JFXAlert
 import com.jfoenix.controls.JFXButton
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon
-import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory
+import com.jfoenix.controls.JFXDialogLayout
 import javafx.collections.transformation.FilteredList
 import javafx.geometry.Pos
 import javafx.scene.control.TableColumn
@@ -10,7 +10,10 @@ import javafx.scene.control.TableView
 import javafx.scene.effect.DropShadow
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
+import javafx.stage.Modality
 import me.aiglez.disamper.interventions.controllers.DatabaseController
+import me.aiglez.disamper.interventions.controllers.DocumentController
+import me.aiglez.disamper.interventions.folder
 import me.aiglez.disamper.interventions.models.InterventionModel
 import me.aiglez.disamper.interventions.utils.jfxbutton
 import me.aiglez.disamper.interventions.utils.jfxtextfield
@@ -20,6 +23,7 @@ import tornadofx.*
 class HistoryView : View("DISAMPER") {
 
     private val database: DatabaseController by inject()
+    private val document: DocumentController by inject()
 
     private lateinit var table: TableView<InterventionModel>
     private lateinit var printButton : JFXButton
@@ -59,10 +63,6 @@ class HistoryView : View("DISAMPER") {
                 textFill = c("#FFFFFF")
                 font = Font.font("Segoe UI Semibold", 15.0)
 
-                graphic = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.PLUS).apply {
-                    fill = c("#FFFFFF")
-                }
-
                 stackpaneConstraints {
                     alignment = Pos.CENTER_RIGHT
                     marginRight = 20.0
@@ -76,29 +76,6 @@ class HistoryView : View("DISAMPER") {
                     replaceWith<AddView>()
                 }
             }
-
-            // icon
-            add(
-                FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.BOLT, "50").apply {
-                    fill = c("#5865F2")
-                    effect = DropShadow(10.0, c("#d8d8d8"))
-                    onHover {
-                        style = if (it) {
-                            String.format(
-                                "-fx-font-family: %s; -fx-font-size: %s;",
-                                FontAwesomeIcon.BOLT.fontFamily(),
-                                60
-                            )
-                        } else {
-                            String.format(
-                                "-fx-font-family: %s; -fx-font-size: %s;",
-                                FontAwesomeIcon.BOLT.fontFamily(),
-                                50
-                            )
-                        }
-                    }
-                }
-            )
         }
 
         pane {
@@ -171,13 +148,47 @@ class HistoryView : View("DISAMPER") {
                         textFill = c("#FFFFFF")
                         font = Font.font("Segoe UI Semibold", 15.0)
 
-                        graphic = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.SAVE)
-                            .apply {
-                                fill = c("#FFFFFF")
-                            }
-
                         style {
                             backgroundColor = multi(c("#54a957"))
+                        }
+
+                        action {
+                            val dir = chooseDirectory("Emplacement du document", folder)
+                            if (dir != null) {
+                                runAsyncWithOverlay {
+                                    document.save(table.selectedItem!!.item, dir)
+
+
+                                }.setOnSucceeded {
+                                    JFXAlert<String>(this.scene.window).apply {
+                                        initModality(Modality.APPLICATION_MODAL)
+                                        isOverlayClose = false
+
+                                        setContent(JFXDialogLayout().apply {
+                                            isHideOnEscape = true
+
+                                            setBody(label(
+                                                "Le document PDF a bien été enregister."
+                                            ))
+                                            setActions(
+                                                jfxbutton("OK", JFXButton.ButtonType.RAISED) {
+                                                    style {
+                                                        backgroundColor = multi(c("#5865F2"))
+                                                        textFill = Color.web("#FFFFFF")
+                                                        font = loadFont("/fonts/roboto-regular.ttf", 10.0)!!
+                                                    }
+                                                    action {
+                                                        hideWithAnimation()
+                                                    }
+                                                    styleClass.add("dialog-accept")
+                                                },
+                                            )
+                                        })
+
+                                        show()
+                                    }
+                                }
+                            }
                         }
 
                         isDisable = true
@@ -192,17 +203,83 @@ class HistoryView : View("DISAMPER") {
                         textFill = c("#FFFFFF")
                         font = Font.font("Segoe UI Semibold", 15.0)
 
-                        graphic = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.PRINT)
-                            .apply {
-                                fill = c("#FFFFFF")
-                            }
-
                         style {
                             backgroundColor = multi(c("#5865F2"))
                         }
 
                         borderpaneConstraints {
                             alignment = Pos.CENTER
+                        }
+
+                        action {
+                            runAsync {
+                                document.print(table.selectedItem!!.item)
+
+                                success {
+                                    JFXAlert<String>(this@borderpane.scene.window).apply {
+                                        initModality(Modality.APPLICATION_MODAL)
+                                        isOverlayClose = false
+
+                                        setContent(JFXDialogLayout().apply {
+                                            isHideOnEscape = true
+
+                                            setBody(
+                                                label(
+                                                    "Le document PDF a bien été imprimer."
+                                                )
+                                            )
+                                            setActions(
+                                                jfxbutton("OK", JFXButton.ButtonType.RAISED) {
+                                                    style {
+                                                        backgroundColor = multi(c("#5865F2"))
+                                                        textFill = Color.web("#FFFFFF")
+                                                        font = loadFont("/fonts/roboto-regular.ttf", 10.0)!!
+                                                    }
+                                                    action {
+                                                        hideWithAnimation()
+                                                    }
+                                                    styleClass.add("dialog-accept")
+                                                },
+                                            )
+                                        })
+
+                                        show()
+                                    }
+                                }
+
+                                fail {
+                                    JFXAlert<String>(this@borderpane.scene.window).apply {
+                                        initModality(Modality.APPLICATION_MODAL)
+                                        isOverlayClose = false
+
+                                        setContent(JFXDialogLayout().apply {
+                                            isHideOnEscape = true
+
+                                            setBody(
+                                                label(
+                                                    "L'impression du document a échoué, Veuillez connecter" +
+                                                            " l'imprimante à vote ordinateur"
+                                                )
+                                            )
+                                            setActions(
+                                                jfxbutton("FERMER", JFXButton.ButtonType.RAISED) {
+                                                    style {
+                                                        backgroundColor = multi(c("#5865F2"))
+                                                        textFill = Color.web("#FFFFFF")
+                                                        font = loadFont("/fonts/roboto-regular.ttf", 10.0)!!
+                                                    }
+                                                    action {
+                                                        hideWithAnimation()
+                                                    }
+                                                    styleClass.add("dialog-accept")
+                                                },
+                                            )
+                                        })
+
+                                        show()
+                                    }
+                                }
+                            }
                         }
 
                         isDisable = true
@@ -217,20 +294,45 @@ class HistoryView : View("DISAMPER") {
                         textFill = c("#FFFFFF")
                         font = Font.font("Segoe UI Semibold", 15.0)
 
-                        graphic = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.REMOVE)
-                            .apply {
-                                fill = c("#FFFFFF")
-                            }
-
                         style {
                             backgroundColor = multi(c("#D32F2F"))
                         }
 
                         action {
-                            runAsync {
-                                database.deleteIntervention(table.selectedItem!!)
-                                table.selectionModel.clearSelection()
-                                updateButtons()
+                            JFXAlert<String>(this.scene.window).apply {
+                                initModality(Modality.APPLICATION_MODAL)
+                                isOverlayClose = false
+
+                                setContent(JFXDialogLayout().apply {
+                                    isHideOnEscape = true
+
+                                    setBody(
+                                        label(
+                                            "Êtes-vous sûr de vouloir supprimer cette intervention définitivement"
+                                        )
+                                    )
+                                    setActions(
+                                        jfxbutton("OUI", JFXButton.ButtonType.RAISED) {
+                                            style {
+                                                backgroundColor = multi(c("#5865F2"))
+                                                textFill = Color.web("#FFFFFF")
+                                                font = loadFont("/fonts/roboto-regular.ttf", 10.0)!!
+                                            }
+                                            action {
+                                                runAsync {
+                                                    database.deleteIntervention(table.selectedItem!!)
+                                                    table.selectionModel.clearSelection()
+                                                    updateButtons()
+                                                }
+
+                                                hideWithAnimation()
+                                            }
+                                            styleClass.add("dialog-accept")
+                                        },
+                                    )
+                                })
+
+                                show()
                             }
                         }
 
@@ -286,7 +388,6 @@ class HistoryView : View("DISAMPER") {
     }
 
     private fun correct(sortable: Boolean, column: TableColumn<*,*>) {
-        column.isReorderable = false
         column.isResizable = false
         column.isSortable = sortable
     }
