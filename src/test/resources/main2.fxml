@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<Pane prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane layoutY="90.0" prefHeight="610.0" prefWidth="1000.0" style="-fx-background-color: #36393F #36393F;">
+         <children>
+            <TableView layoutX="50.0" layoutY="102.0" prefHeight="415.0" prefWidth="900.0" stylesheets="@../../main/resources/css/history.css">
+              <columns>
+                <TableColumn editable="false" maxWidth="25.0" minWidth="25.0" prefWidth="40.0" resizable="false" text="ID" />
+                <TableColumn editable="false" prefWidth="75.0" resizable="false" text="INTERVENEUR">
+                     <columns>
+                        <TableColumn editable="false" minWidth="130.0" prefWidth="100.0" resizable="false" text="NOM" />
+                        <TableColumn editable="false" minWidth="130.0" prefWidth="100.0" resizable="false" text="PRÉNOM" />
+                        <TableColumn editable="false" maxWidth="110.0" minWidth="130.0" prefWidth="110.0" resizable="false" sortable="false" text="FONCTIONS" />
+                     </columns>
+                  </TableColumn>
+                  <TableColumn editable="false" maxWidth="130.0" minWidth="130.0" prefWidth="122.0" resizable="false" text="CLIENT" />
+                  <TableColumn editable="false" maxWidth="118.0" minWidth="130.0" prefWidth="120.0" resizable="false" sortable="false" text="DATE" />
+                  <TableColumn editable="false" maxWidth="224.0" minWidth="180.0" prefWidth="224.0" resizable="false" sortable="false" text="NOTE" />
+              </columns>
+               <effect>
+                  <DropShadow>
+                     <color>
+                        <Color red="0.1725490242242813" green="0.18431372940540314" blue="0.20000000298023224" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </TableView>
+            <BorderPane layoutX="50.0" layoutY="52.0" prefHeight="50.0" prefWidth="900.0">
+               <left>
+                  <Text fill="#7289da" lineSpacing="1.2" strokeType="OUTSIDE" strokeWidth="0.0" text="HISTORIQUE" BorderPane.alignment="CENTER_LEFT">
+                     <font>
+                        <Font name="Arial" size="27.0" />
+                     </font>
+                  </Text>
+               </left>
+               <right>
+                  <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <JFXTextField focusColor="#7289da" labelFloat="true" prefHeight="30.0" prefWidth="190.0" promptText="Recherche..." unFocusColor="#99aab5">
+                           <font>
+                              <Font name="Segoe UI" size="15.0" />
+                           </font>
+                        </JFXTextField>
+                     </children>
+                  </HBox>
+               </right>
+            </BorderPane>
+            <BorderPane layoutX="50.0" layoutY="535.0" prefHeight="35.0" prefWidth="900.0">
+               <left>
+                  <JFXButton mnemonicParsing="false" prefHeight="25.0" prefWidth="290.0" text="Button" BorderPane.alignment="CENTER" />
+               </left>
+               <right>
+                  <JFXButton mnemonicParsing="false" prefHeight="25.0" prefWidth="290.0" text="Button" BorderPane.alignment="CENTER" />
+               </right>
+               <center>
+                  <JFXButton mnemonicParsing="false" prefHeight="35.0" prefWidth="290.0" text="Button" BorderPane.alignment="CENTER" />
+               </center>
+            </BorderPane>
+         </children>
+      </Pane>
+      <StackPane centerShape="false" prefHeight="90.0" prefWidth="1000.0" style="-fx-background-color: #2C2F33;">
+         <effect>
+            <DropShadow height="23.56" radius="11.32" width="23.72">
+               <color>
+                  <Color red="0.125490203499794" green="0.13333334028720856" blue="0.14509804546833038" />
+               </color>
+            </DropShadow>
+         </effect>
+         <children>
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="DISAMPER" StackPane.alignment="CENTER_LEFT">
+               <StackPane.margin>
+                  <Insets left="20.0" />
+               </StackPane.margin>
+               <font>
+                  <Font name="Segoe UI Semibold" size="30.0" />
+               </font>
+            </Text>
+            <JFXButton buttonType="RAISED" mnemonicParsing="false" ripplerFill="#23272a" style="-fx-background-color: #57F287;" text="HISTORIQUE" textFill="WHITE" StackPane.alignment="CENTER_RIGHT">
+               <StackPane.margin>
+                  <Insets right="20.0" />
+               </StackPane.margin>
+               <font>
+                  <Font name="Segoe UI Semibold" size="16.0" />
+               </font>
+            </JFXButton>
+            <JFXButton mnemonicParsing="false" prefHeight="30.0" prefWidth="47.0" textFill="#5865f2" />
+         </children>
+      </StackPane>
+   </children>
+</Pane>
