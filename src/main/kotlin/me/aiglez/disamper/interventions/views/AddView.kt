@@ -9,7 +9,6 @@ import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.stage.Modality
 import me.aiglez.disamper.interventions.controllers.DatabaseController
-import me.aiglez.disamper.interventions.controllers.DocumentController
 import me.aiglez.disamper.interventions.utils.jfxbutton
 import me.aiglez.disamper.interventions.utils.jfxdatepicker
 import me.aiglez.disamper.interventions.utils.jfxtextarea
@@ -19,7 +18,6 @@ import tornadofx.*
 class AddView : View("DISAMPER") {
 
     private val database: DatabaseController by inject()
-    private val document: DocumentController by inject()
 
     private lateinit var lastNameField: JFXTextField
     private lateinit var firstNameField: JFXTextField
