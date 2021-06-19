@@ -9,6 +9,7 @@ import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.stage.Modality
 import me.aiglez.disamper.interventions.controllers.DatabaseController
+import me.aiglez.disamper.interventions.controllers.DocumentController
 import me.aiglez.disamper.interventions.utils.jfxbutton
 import me.aiglez.disamper.interventions.utils.jfxdatepicker
 import me.aiglez.disamper.interventions.utils.jfxtextarea
@@ -18,6 +19,7 @@ import tornadofx.*
 class AddView : View("DISAMPER") {
 
     private val database: DatabaseController by inject()
+    private val document: DocumentController by inject()
 
     private lateinit var lastNameField: JFXTextField
     private lateinit var firstNameField: JFXTextField
@@ -148,8 +150,17 @@ class AddView : View("DISAMPER") {
 
 
                 // save button
-                jfxbutton("SAUVEGARDER", JFXButton.ButtonType.RAISED) {
-                    correct(14.0, 467.0, "#54a957", "#66BB6A", this)
+                jfxbutton("AJOUTER", JFXButton.ButtonType.RAISED) {
+                    layoutX = 14.0; layoutY = 467.0
+                    prefHeight = 34.0; prefWidth = 532.0
+
+                    ripplerFill = c("#66BB6A")
+
+                    style {
+                        backgroundColor = multi(c("#54a957"))
+                        textFill = c("#FFFFFF")
+                        font = loadFont("/fonts/roboto-regular.ttf", 11.0)!!
+                    }
 
                     action {
                         if (lastNameField.text.isNullOrEmpty()
@@ -168,32 +179,36 @@ class AddView : View("DISAMPER") {
                             }
                             return@action
                         }
-                        runAsync {
-                            database.createIntervention(
-                                lastNameField.text, firstNameField.text, functionsField.text,
-                                clientField.text, datePicker.value, noteArea.text
+                        database.createIntervention(
+                            lastNameField.text, firstNameField.text, functionsField.text,
+                            clientField.text, datePicker.value, noteArea.text
+                        )
+                        clearFields()
+
+                        val alert: JFXAlert<String> = JFXAlert(this.scene.window)
+                        alert.initModality(Modality.APPLICATION_MODAL)
+                        alert.isOverlayClose = false
+                        alert.setContent(JFXDialogLayout().apply {
+                            setBody(label(
+                                "L'intervention a bien été enregistrée sur la base de données"
+                            ))
+                            setActions(
+                                jfxbutton("HISTORIQUE", JFXButton.ButtonType.RAISED) {
+                                    style {
+                                        backgroundColor = multi(c("#4CAF50"))
+                                        textFill = c("#FFFF")
+                                        font = loadFont("/fonts/roboto-regular.ttf", 10.0)!!
+                                    }
+
+                                    action {
+                                        alert.hide()
+                                        replaceWith<HistoryView>()
+                                    }
+                                    styleClass.add("dialog-accept")
+                                },
                             )
-                            clearFields()
-                        }
-                    }
-                }
-
-                // print button
-                jfxbutton("IMPRIMER", JFXButton.ButtonType.RAISED) {
-                    correct(326.0, 467.0, "#5865F2", "#7784ff", this)
-
-                    action {
-                        if (!true) {
-                            val childrens = this@pane.childrenUnmodifiable
-                            for (child in childrens) {
-                                if (child is JFXTextField) {
-                                    child.validate()
-                                } else if (child is JFXDatePicker) {
-                                    child.validate()
-                                }
-                            }
-                            return@action
-                        }
+                        })
+                        alert.show()
                     }
                 }
 
@@ -220,7 +235,7 @@ class AddView : View("DISAMPER") {
                                     }
 
                                     action {
-                                        //controller.reset()
+                                        clearFields()
                                         alert.hide()
                                     }
                                     styleClass.add("dialog-accept")

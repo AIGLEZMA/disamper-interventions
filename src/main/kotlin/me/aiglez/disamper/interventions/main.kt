@@ -1,11 +1,12 @@
 package me.aiglez.disamper.interventions
 
+import com.sun.javafx.PlatformUtil
 import javafx.scene.image.Image
 import javafx.stage.Stage
 import me.aiglez.disamper.interventions.views.HistoryView
 import tornadofx.*
-import java.io.File
-import javax.swing.filechooser.FileSystemView
+import java.nio.file.Path
+import java.nio.file.Paths
 
 class Main : App(HistoryView::class) {
 
@@ -25,7 +26,22 @@ class Main : App(HistoryView::class) {
     }
 }
 
-val folder = File(File(FileSystemView.getFileSystemView().defaultDirectory, "Disamper"), "Interventions")
+val cacheDir: Path by lazy {
+    when {
+        PlatformUtil.isWinVistaOrLater() -> {
+            Paths.get(System.getenv("ProgramData"), "Disamper", "Interventions")
+        }
+        PlatformUtil.isWindows() -> {
+            Paths.get(System.getenv("ALLUSERSPROFILE"), "Disamper", "Interventions")
+        }
+        PlatformUtil.isLinux() -> {
+            Paths.get("Library", "Application Support", "Disamper", "Interventions")
+        }
+        else -> {
+            Paths.get("usr", "local", "share", "Disamper", "Interventions")
+        }
+    }
+}
 
 fun main() {
     launch<Main>()

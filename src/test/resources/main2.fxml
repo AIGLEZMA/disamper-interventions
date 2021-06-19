@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.*?>
-<?import de.jensd.fx.glyphs.fontawesome.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
@@ -46,8 +45,7 @@
                <right>
                   <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <children>
-                        <FontAwesomeIconView fill="#5865f2" glyphName="PRINT" selectionFill="#5865f2" size="21" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="17.5" />
-                        <JFXTextField focusColor="#7289da" labelFloat="true" prefHeight="30.0" prefWidth="190.0" promptText="Recherche..." stylesheets="@../../main/resources/css/custom.css" unFocusColor="#99aab5">
+                        <JFXTextField focusColor="#7289da" labelFloat="true" prefHeight="30.0" prefWidth="190.0" promptText="Recherche..." unFocusColor="#99aab5">
                            <font>
                               <Font name="Segoe UI" size="15.0" />
                            </font>
@@ -93,14 +91,7 @@
                <font>
                   <Font name="Segoe UI Semibold" size="16.0" />
                </font>
-               <graphic>
-                  <FontAwesomeIconView fill="WHITE" glyphName="HISTORY" strokeType="OUTSIDE" strokeWidth="0.0" />
-               </graphic>
             </JFXButton>
-            <FontAwesomeIconView fill="WHITE" glyphName="BOLT" size="50" strokeType="OUTSIDE" strokeWidth="0.0" text="">
-               <font>
-                  <Font size="96.0" />
-               </font></FontAwesomeIconView>
             <JFXButton mnemonicParsing="false" prefHeight="30.0" prefWidth="47.0" textFill="#5865f2" />
          </children>
       </StackPane>

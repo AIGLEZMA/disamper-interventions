@@ -10,10 +10,10 @@ import javafx.scene.control.TableView
 import javafx.scene.effect.DropShadow
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
+import javafx.stage.FileChooser
 import javafx.stage.Modality
 import me.aiglez.disamper.interventions.controllers.DatabaseController
 import me.aiglez.disamper.interventions.controllers.DocumentController
-import me.aiglez.disamper.interventions.folder
 import me.aiglez.disamper.interventions.models.InterventionModel
 import me.aiglez.disamper.interventions.utils.jfxbutton
 import me.aiglez.disamper.interventions.utils.jfxtextfield
@@ -153,39 +153,47 @@ class HistoryView : View("DISAMPER") {
                         }
 
                         action {
-                            val dir = chooseDirectory("Emplacement du document", folder)
-                            if (dir != null) {
-                                runAsyncWithOverlay {
-                                    document.save(table.selectedItem!!.item, dir)
+                            val selectedFile = chooseFile("Emplacement du document", arrayOf(
+                                FileChooser.ExtensionFilter(
+                                    "Document PDF (.pdf)",
+                                    ".pdf"
+                                )
+                            ), null, FileChooserMode.Save) {
+                                initialFileName = "intervention_${table.selectedItem!!.item.id.value}"
+                            }
 
+                            if (selectedFile.isNotEmpty()) {
+                                runAsync {
+                                    document.save(table.selectedItem!!.item, selectedFile[0])
 
-                                }.setOnSucceeded {
-                                    JFXAlert<String>(this.scene.window).apply {
-                                        initModality(Modality.APPLICATION_MODAL)
-                                        isOverlayClose = false
+                                    success {
+                                        JFXAlert<String>(this@borderpane.scene.window).apply {
+                                            initModality(Modality.APPLICATION_MODAL)
+                                            isOverlayClose = false
 
-                                        setContent(JFXDialogLayout().apply {
-                                            isHideOnEscape = true
+                                            setContent(JFXDialogLayout().apply {
+                                                isHideOnEscape = true
 
-                                            setBody(label(
-                                                "Le document PDF a bien été enregister."
-                                            ))
-                                            setActions(
-                                                jfxbutton("OK", JFXButton.ButtonType.RAISED) {
-                                                    style {
-                                                        backgroundColor = multi(c("#5865F2"))
-                                                        textFill = Color.web("#FFFFFF")
-                                                        font = loadFont("/fonts/roboto-regular.ttf", 10.0)!!
-                                                    }
-                                                    action {
-                                                        hideWithAnimation()
-                                                    }
-                                                    styleClass.add("dialog-accept")
-                                                },
-                                            )
-                                        })
+                                                setBody(label(
+                                                    "Le document PDF a bien été enregister."
+                                                ))
+                                                setActions(
+                                                    jfxbutton("OK", JFXButton.ButtonType.RAISED) {
+                                                        style {
+                                                            backgroundColor = multi(c("#5865F2"))
+                                                            textFill = Color.web("#FFFFFF")
+                                                            font = loadFont("/fonts/roboto-regular.ttf", 10.0)!!
+                                                        }
+                                                        action {
+                                                            hideWithAnimation()
+                                                        }
+                                                        styleClass.add("dialog-accept")
+                                                    },
+                                                )
+                                            })
 
-                                        show()
+                                            show()
+                                        }
                                     }
                                 }
                             }
@@ -307,9 +315,7 @@ class HistoryView : View("DISAMPER") {
                                     isHideOnEscape = true
 
                                     setBody(
-                                        label(
-                                            "Êtes-vous sûr de vouloir supprimer cette intervention définitivement"
-                                        )
+                                        label("Êtes-vous sûr de vouloir supprimer cette intervention définitivement")
                                     )
                                     setActions(
                                         jfxbutton("OUI", JFXButton.ButtonType.RAISED) {

@@ -17,33 +17,32 @@ import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.property.TextAlignment
 import com.itextpdf.layout.property.UnitValue
 import com.itextpdf.layout.property.VerticalAlignment
-import me.aiglez.disamper.interventions.folder
 import me.aiglez.disamper.interventions.models.Intervention
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.printing.PDFPageable
 import tornadofx.*
-import java.awt.print.PrinterException
 import java.awt.print.PrinterJob
 import java.io.File
+import java.nio.file.Files
 import javax.imageio.ImageIO
 import javax.print.PrintServiceLookup
 import kotlin.system.measureTimeMillis
 
 class DocumentController : Controller() {
 
-    fun save(intervention: Intervention, dir: File) {
-        buildDocument(intervention, File(dir, "intervention_${intervention.id.value}.pdf"))
+    fun save(intervention: Intervention, file: File) {
+        buildDocument(intervention, file)
     }
 
     fun print(intervention: Intervention) {
-        val file = File(folder, ".temp_${intervention.id.value}.pdf")
+        val file = Files.createTempFile(null, ".pdf").toFile()
         buildDocument(intervention, file)
 
         println("Printing a file")
         val ms = measureTimeMillis {
             val document = PDDocument.load(file)
 
-            val printService = PrintServiceLookup.lookupDefaultPrintService() ?: throw PrinterException()
+            val printService = PrintServiceLookup.lookupDefaultPrintService()
             PrinterJob.getPrinterJob().apply {
                 setPageable(PDFPageable(document))
                 setPrintService(printService)

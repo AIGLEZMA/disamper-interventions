@@ -15,7 +15,7 @@
 
         <app.class>me.aiglez.disamper.interventions.Main</app.class>
         <app.filename>disamper-interventions</app.filename>
-        <app.cacheDir>USERLIB/Disamper/Interventions/Libraries</app.cacheDir>
+        <app.cacheDir>ALLUSERS/Disamper/Interventions/</app.cacheDir>
         <app.vendor>Disamper SARL</app.vendor>
         <app.version>1.0</app.version>
         <app.url>https://aiglez.blob.core.windows.net/interventions/</app.url>
